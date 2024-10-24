@@ -156,6 +156,8 @@ def setup_inference(config, weights, threshold = None, folder = None):
         image_files_list = find_imgs(file_folder)
 
         inference_time = []
+        pred_boxes_dict = {}  # Dictionary to hold predicted boxes
+        
         for filepath in image_files_list:
 
             img_fname = os.path.basename(filepath)
@@ -166,10 +168,25 @@ def setup_inference(config, weights, threshold = None, folder = None):
             classes = np.argmax(scores, axis=1) if len(scores) > 0 else []
             print(classes)
             temp = config['model']['labels']
+            image_predictions = []
+            
             if len(classes) > 0:
                 for i in range(len(classes)):
                     print(temp[classes[i]])
             inference_time.append(prediction_time)
+            
+
+            # Save predicted boxes to dictionary with class and score
+            if len(classes) > 0:
+                for i in range(len(classes)):
+                    prediction = {
+                        "box": boxes[i].tolist(),  # Convert box to list
+                        "class": temp[classes[i]],
+                        "score": float(np.max(scores[i]))  # Max score for the class
+                    }
+                    image_predictions.append(prediction)
+            
+            pred_boxes_dict[img_fname] = image_predictions
 
             # 4. save detection result
             orig_image = draw_boxes(orig_image, boxes, scores, classes, config['model']['labels'])
@@ -180,6 +197,14 @@ def setup_inference(config, weights, threshold = None, folder = None):
 
         if len(inference_time)>1:
             print("Average prediction time:{} ms".format(sum(inference_time[1:])/len(inference_time[1:])))
+            
+
+        # Save predicted boxes to a JSON file
+        with open(os.path.join(dirname, 'pred_boxes.json'), 'w') as f:
+            json.dump(pred_boxes_dict, f, indent=4)
+
+        if len(inference_time) > 1:
+            print("Average prediction time:{} ms".format(sum(inference_time[1:]) / len(inference_time[1:])))
 
 if __name__ == '__main__':
     # 1. extract arguments

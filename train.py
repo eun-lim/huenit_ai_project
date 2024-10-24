@@ -39,7 +39,7 @@ config = {
         "valid_annot_folder":   "/home/huenit/miraechar/OIDv4_ToolKit/OID/xml_generated/anns_validation",
         "valid_times":          1,
         "valid_metric":         "recall",
-        "batch_size":           32,
+        "batch_size":           8,
         "learning_rate":        1e-3,
         "saved_folder":   		MODEL_SAVE_PATH,
         "first_trainable_layer": "",
