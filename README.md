@@ -2,7 +2,7 @@
 
 OID 데이터셋을 다운로드하여, 텐서플로우 기반의 객체 탐지 모델을 학습했습니다. 
 
-학습 후 K210 보드에서 동작할 수 있도록 K210 호환 포맷(kmodel)으로 변환되며, 최종적으로 K210 플랫폼에서 실시간으로 객체 탐지가 이루어집니다.
+학습 후 K210 보드에서 동작할 수 있도록 K210 호환 포맷(kmodel)으로 변환되며, 최종적으로 K210 플랫폼에서 실시간으로 Object-Detection이 이루어집니다.
 
 
 
@@ -26,6 +26,7 @@ https://github.com/Cartucho/mAP
 OID dataset
 
 https://github.com/theAIGuysCode/OIDv4_ToolKit
+
 
 
 https://github.com/kendryte/canmv_docs
