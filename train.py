@@ -18,7 +18,7 @@ config = {
         "type":                 "Detector",
         "architecture":         "MobileNet5_0",
         "input_size":           [224, 224],
-        "anchors":              [[[0.91740, 0.86123], [0.12227, 0.14110], [0.42561, 0.86039], [0.82585, 0.38838], [0.32382, 0.37190]]],
+        "anchors":              [[[1.889, 2.5245], [2.9465, 3.94056], [3.99987, 5.3658], [5.155437, 6.92275], [6.718375, 9.01025]]],
         "labels":               label_list,
         "obj_thresh" : 		    0.5,
         "iou_thresh" : 		    0.5,
@@ -28,7 +28,7 @@ config = {
     },
     "weights" : {
         "full":   				"",
-        "backend":   		    "imagenet"  # imagenet
+        "backend":   		    "imagenet"   
     },
     "train" : {
         "actual_epoch":         20,

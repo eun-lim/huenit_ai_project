@@ -17,6 +17,16 @@ from ai_training.networks.yolo.backend.batch_gen import create_batch_generator
 from ai_training.networks.yolo.backend.utils.annotation import get_train_annotations, get_unique_labels
 from ai_training.networks.yolo.backend.utils.box import to_minmax
 
+# 추가 V04
+from ai_training.networks.yolo.backend.network_Full_Yolo import create_yolo_network_Full_Yolo
+from ai_training.networks.yolo.backend.network_Tiny_Yolo import create_yolo_network_Tiny_Yolo
+from ai_training.networks.yolo.backend.network_SqueezeNet import create_yolo_network_SqueezeNet
+from ai_training.networks.yolo.backend.network_NASNetMobile import create_yolo_network_NASNetMobile 
+from ai_training.networks.yolo.backend.network_DenseNet121 import create_yolo_network_DenseNet121
+from ai_training.networks.yolo.backend.network_ResNet50 import create_yolo_network_ResNet50
+from ai_training.networks.yolo.backend.network_Mobilenet import create_yolo_network_MobileNet
+
+
 def get_object_labels(ann_directory):
     files = os.listdir(ann_directory)
     files = [os.path.join(ann_directory, fname) for fname in files]
@@ -36,7 +46,103 @@ def create_yolo(architecture,
     n_classes = len(labels)
     n_boxes = int(len(anchors[0]))
     n_branches = len(anchors)
-    yolo_network = create_yolo_network(architecture, input_size, n_classes, n_boxes, n_branches, weights)
+    # (기존) yolo_network = create_yolo_network(architecture, input_size, n_classes, n_boxes, n_branches, weights)
+    
+    # 추가 V04 
+    if  architecture.startswith('MobileNet'):
+        yolo_network = create_yolo_network_MobileNet(architecture, input_size, n_classes, n_boxes, n_branches, weights)
+        yolo_params = Params(obj_thresh, iou_thresh, object_scale, no_object_scale, coord_scale, yolo_network.get_grid_size(), anchors, n_classes)
+        yolo_loss = create_loss_fn
+
+        metrics_dict = {'recall': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')],
+                    'precision': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')]}
+
+        yolo_decoder = YoloDecoder(anchors, yolo_params, 0.1, input_size)
+        yolo = YOLO(yolo_network, yolo_loss, yolo_decoder, labels, input_size, yolo_params, metrics_dict)
+        return yolo        
+    
+    elif architecture == 'ResNet50':
+        yolo_network = create_yolo_network_ResNet50(architecture, input_size, n_classes, n_boxes, n_branches, weights)
+        yolo_params = Params(obj_thresh, iou_thresh, object_scale, no_object_scale, coord_scale, yolo_network.get_grid_size(), anchors, n_classes)
+        yolo_loss = create_loss_fn
+
+        metrics_dict = {'recall': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')],
+                    'precision': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')]}
+
+        yolo_decoder = YoloDecoder(anchors, yolo_params, 0.1, input_size)
+        yolo = YOLO(yolo_network, yolo_loss, yolo_decoder, labels, input_size, yolo_params, metrics_dict)
+        return yolo        
+
+
+    elif architecture == 'SqueezeNet':
+        yolo_network = create_yolo_network_SqueezeNet(architecture, input_size, n_classes, n_boxes, n_branches, weights)
+        yolo_params = Params(obj_thresh, iou_thresh, object_scale, no_object_scale, coord_scale, yolo_network.get_grid_size(), anchors, n_classes)
+        yolo_loss = create_loss_fn
+
+        metrics_dict = {'recall': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')],
+                    'precision': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')]}
+
+        yolo_decoder = YoloDecoder(anchors, yolo_params, 0.1, input_size)
+        yolo = YOLO(yolo_network, yolo_loss, yolo_decoder, labels, input_size, yolo_params, metrics_dict)
+        return yolo        
+
+
+    elif architecture == 'DenseNet121':
+        yolo_network = create_yolo_network_DenseNet121(architecture, input_size, n_classes, n_boxes, n_branches, weights)
+        yolo_params = Params(obj_thresh, iou_thresh, object_scale, no_object_scale, coord_scale, yolo_network.get_grid_size(), anchors, n_classes)
+        yolo_loss = create_loss_fn
+
+        metrics_dict = {'recall': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')],
+                    'precision': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')]}
+
+        yolo_decoder = YoloDecoder(anchors, yolo_params, 0.1, input_size)
+        yolo = YOLO(yolo_network, yolo_loss, yolo_decoder, labels, input_size, yolo_params, metrics_dict)
+        return yolo        
+
+
+    elif architecture == 'Tiny Yolo':
+        yolo_network = create_yolo_network_Tiny_Yolo(architecture, input_size, n_classes, n_boxes, n_branches, weights)
+        yolo_params = Params(obj_thresh, iou_thresh, object_scale, no_object_scale, coord_scale, yolo_network.get_grid_size(), anchors, n_classes)
+        yolo_loss = create_loss_fn
+
+        metrics_dict = {'recall': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')],
+                    'precision': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')]}
+
+        yolo_decoder = YoloDecoder(anchors, yolo_params, 0.1, input_size)
+        yolo = YOLO(yolo_network, yolo_loss, yolo_decoder, labels, input_size, yolo_params, metrics_dict)
+        return yolo        
+
+
+    elif architecture == 'Full Yolo':
+        yolo_network = create_yolo_network_Full_Yolo(architecture, input_size, n_classes, n_boxes, n_branches, weights)
+        yolo_params = Params(obj_thresh, iou_thresh, object_scale, no_object_scale, coord_scale, yolo_network.get_grid_size(), anchors, n_classes)
+        yolo_loss = create_loss_fn
+
+        metrics_dict = {'recall': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')],
+                    'precision': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')]}
+
+        yolo_decoder = YoloDecoder(anchors, yolo_params, 0.1, input_size)
+        yolo = YOLO(yolo_network, yolo_loss, yolo_decoder, labels, input_size, yolo_params, metrics_dict)
+        return yolo        
+
+    
+    elif architecture == 'NASNetMobile':
+        yolo_network = create_yolo_network_NASNetMobile (architecture, input_size, n_classes, n_boxes, n_branches, weights)    
+        yolo_params = Params(obj_thresh, iou_thresh, object_scale, no_object_scale, coord_scale, yolo_network.get_grid_size(), anchors, n_classes)
+        yolo_loss = create_loss_fn
+
+        metrics_dict = {'recall': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')],
+                    'precision': [Yolo_Precision(obj_thresh, name='precision'), Yolo_Recall(obj_thresh, name='recall')]}
+
+        yolo_decoder = YoloDecoder(anchors, yolo_params, 0.1, input_size)
+        yolo = YOLO(yolo_network, yolo_loss, yolo_decoder, labels, input_size, yolo_params, metrics_dict)
+        return yolo        
+
+    else:
+        raise ValueError(f"Unsupported architecture: {architecture}")
+
+    
+    
     yolo_params = Params(obj_thresh, iou_thresh, object_scale, no_object_scale, coord_scale, yolo_network.get_grid_size(), anchors, n_classes)
     yolo_loss = create_loss_fn
 

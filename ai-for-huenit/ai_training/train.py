@@ -12,7 +12,7 @@ from ai_training.networks.yolo.frontend import create_yolo, get_object_labels
 from ai_training.networks.classifier.frontend_classifier import create_classifier, get_labels
 from ai_training.networks.segnet.frontend_segnet import create_segnet
 from ai_training.networks.common_utils.convert import Converter
-from ai_training.generate_detector_script import generate_script
+from ai_training.generate_detector_script_canMV import generate_script
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '4'
 import tensorflow as tf
