@@ -2,13 +2,12 @@ import json
 import os
 
 # Load the prediction JSON file
-pred_json_path = '/home/huenit/miraechar/yolo_model_output/2024-10-24_12-14-46/Inference_results/pred_boxes.json'
-
+pred_json_path = '/content/save_yolo_model_output/2024-11-19_01-09-52/Inference_results/pred_boxes.json' # # 타임스템프 수정
 # Extract the timestamp from the pred_json_path
 timestamp_folder = pred_json_path.split('/')[-3]  # This will extract '2024-09-20_12-56-13'
 
 # Set the output folder using the extracted timestamp
-output_folder = f'/home/huenit/miraechar/mAP/input/detection-results/{timestamp_folder}'
+output_folder = f'/content/huenit_ai_project/mAP/input/detection-results/{timestamp_folder}'
 
 # Ensure the output folder exists
 os.makedirs(output_folder, exist_ok=True)
@@ -22,7 +21,7 @@ for image_id, boxes in pred_data.items():
     # Remove the file extension (.jpg) for the output filename
     output_file_name = os.path.splitext(image_id)[0] + ".txt"
     output_file_path = os.path.join(output_folder, output_file_name)
-    
+
     # Open the output file to write the results
     with open(output_file_path, 'w') as out_file:
         for box_info in boxes:
