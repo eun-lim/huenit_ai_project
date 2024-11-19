@@ -52,7 +52,7 @@ GT_PATH = os.path.join(os.getcwd(), 'input', 'ground-truth')
 '''
 # 기존의 경로에서 타임스탬프 폴더를 동적으로 추출
 timestamp_folder = '2024-10-24_12-14-46'  # 이 부분을 동적으로 받아오도록 변경 가능
-base_path = '/home/huenit/miraechar/mAP/input/detection-results'
+base_path = '/content/huenit_ai_project/mAP/input/detection-results'
 # DR_PATH를 수정된 경로로 설정
 DR_PATH = os.path.join(base_path, timestamp_folder)
 
