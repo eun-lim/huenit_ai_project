@@ -5,9 +5,9 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
 # 데이터셋 경로와 저장 경로 설정
-dataset_path = '/home/huenit/miraechar/OIDv4_ToolKit/OID/xml_generated/anns'
-output_path = '/home/huenit/miraechar/anchor_result/anchors.txt'
-plot_output_path = '/home/huenit/miraechar/anchor_result/anchor_clustering_result.png'
+dataset_path = '/content/huenit_ai_project/OIDv4_ToolKit/OID/xml_generated/anns'
+output_path = '/content/huenit_ai_project/anchor_result/anchors.txt'
+plot_output_path = '/content/huenit_ai_project/anchor_result/anchor_clustering_result.png'
 
 # 바운딩 박스 너비와 높이 저장 리스트
 widths = []
