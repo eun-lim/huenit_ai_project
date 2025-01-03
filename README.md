@@ -30,7 +30,7 @@ canMV 관련 자료
 
 https://github.com/kendryte/canmv_docs
 
-https://xiael.fun/v1.0/canmv/library/canmv/maix/maix.KPU.html#id2
+https://developer.canaan-creative.com/canmv/main/canmv/library/canmv/maix/maix.KPU_NEW.html
 
 
 
